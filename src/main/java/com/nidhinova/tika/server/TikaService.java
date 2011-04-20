@@ -66,23 +66,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * Tika as a HTTP service, returns metadata as json, textual content as plain
  * text Can be used by doing a PUT of the file we want to parse Can also be used
  * when the file is available locally at the Tika Server (using GET)
- * 
- * GET Metadata : http://localhost:8080/tika/metadata/pathkey/sample.jpg returns
- * metadata as JSON pathkey is a JNDI value that returns a URL (see
- * jetty-env.xml for example) sample.jpg should be made available there before
- * calling
- * 
- * GET Text : http://localhost:8080/tika/text/pathkey/sample.jpg returns textual
- * content, if any, as plain text pathkey is a JNDI value that returns a URL
- * (see jetty-env.xml for example) sample.jpg should be made available there
- * before calling
- * 
- * PUT : curl -T pom.xml http://localhost:8080/tika/metadata returns metadata as
- * JSON
- * 
- * PUT : curl -T pom.xml http://localhost:8080/tika/text returns textual
- * content, if any, as plain text
- * 
+ *
  * @author github.com/gselva
  * 
  */
