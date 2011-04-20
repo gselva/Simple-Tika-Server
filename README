@@ -1,0 +1,76 @@
+Simple Tika Server (https://github.com/gselva)
+----------------------------------------------
+Tika as a HTTP service to parse and get metadata and the textual content of documents (as json)
+
+Based on https://github.com/maxcom/tikaserver-ex
+More info here https://issues.apache.org/jira/browse/TIKA-593
+
+Build and run
+-------------
+Uses Maven. Under project root do: 
+mvn jetty:run
+
+Deploy
+------
+Do
+mvn war:war
+
+Then drop the war into the webapps folder of a servlet container like Jetty or Apache Tomcat. 
+If using Simple Tika Server for parsing local files with HTTP GET, you'll need to setup JNDI entries, see below.
+
+
+Usage
+-----
+HTTP PUT a document to parse with Tika
+HTTP GET to parse a locally available document with Tika
+
+  PUT document to get metadata
+	curl -T pom.xml http://localhost:8080/tika/metadata
+		returns metadata as JSON
+  			
+  PUT document to get text
+	curl -T pom.xml http://localhost:8080/tika/text
+		returns textual content, if any, as json
+  
+  PUT document to get metadata and text
+	curl -T pom.xml http://localhost:8080/tika/fulldata
+		returns metadata and textual content as json
+  
+  
+  GET Metadata ('metadata' option)
+	  http://localhost:8080/tika/metadata/localfiles/sample.jpg
+		returns metadata as JSON
+		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
+		sample.jpg should be made available there before calling 
+		
+  	http://localhost:8080/tika/metadata/wikipedia/wiki/Douglas_Adams  
+		returns metadata as JSON
+		'wikipedia' is a JNDI value that returns a URL (see jetty-env.xml for example) 
+		"wiki/Douglas_Adams" is the resource you want to parse 
+		
+  	http://localhost:8080/tika/metadata/wikipedia/w/index.php?title=Talk:Douglas_Adams&action=history  		
+		document part can have query params as well 
+		"w/index.php?title=Talk:Douglas_Adams&action=history" is treated as the source document here
+
+  
+  GET Text ('text' option)
+  	http://localhost:8080/tika/text/localfiles/sample.doc
+		returns textual content, if any, as json
+		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
+		sample.doc should be made available there before calling 
+  			
+  GET Metadata and Text ('fulldata' option)
+  	http://localhost:8080/tika/fulldata/localfiles/sample.doc
+		returns metadata and textual content as json
+		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
+		sample.doc should be made available there before calling 
+
+
+HTTP Codes returned
+-------------------
+200 - Ok
+404 - Document not found
+415 - Unknown file type
+422 - Unparsable document of known type (password protected documents and unsupported versions like Biff5 Excel)
+500 - Internal error
+
