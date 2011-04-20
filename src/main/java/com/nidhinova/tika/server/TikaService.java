@@ -456,12 +456,11 @@ public class TikaService {
 	 * @return filepath
 	 */
 	private String getFilePath(String pathkey) {
+		logger.info("Getting path for "+pathkey);
 		String path = "";
 		try {
 			javax.naming.Context initCtx = new InitialContext();
-			javax.naming.Context envCtx = (javax.naming.Context) initCtx
-					.lookup("java:comp/env");
-			path = (String) envCtx.lookup(pathkey);
+			path = (String) initCtx.lookup("java:comp/env/"+pathkey);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

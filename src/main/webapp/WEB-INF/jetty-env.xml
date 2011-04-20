@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
-<Configure class="org.mortbay.jetty.webapp.WebAppContext">
-  <Set name="contextPath">/tika</Set>
-  <New id="localfiles" class="org.mortbay.jetty.plus.naming.EnvEntry">
+
+<Configure id="nidhinova" class="org.eclipse.jetty.webapp.WebAppContext">
+  <New id="localfiles" class="org.eclipse.jetty.plus.jndi.EnvEntry"> 
+   <Arg><Ref id='nidhinova' /></Arg>
     <Arg>localfiles</Arg> 
     <Arg type="java.lang.String">/Users/selva/Downloads/</Arg>
     <Arg type="boolean">true</Arg>
   </New>
 
-  <New id="wikipedia" class="org.mortbay.jetty.plus.naming.EnvEntry">
+  <New id="wikipedia" class="org.eclipse.jetty.plus.jndi.EnvEntry">
+   <Arg><Ref id='nidhinova' /></Arg>
     <Arg>wikipedia</Arg> 
     <Arg type="java.lang.String">http://en.wikipedia.org/</Arg>
     <Arg type="boolean">true</Arg>
