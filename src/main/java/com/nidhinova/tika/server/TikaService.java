@@ -151,9 +151,12 @@ public class TikaService {
 					parser.parse(is, handler, metadata, context);
 
 					String contentEncoding = (metadata
-							.get(org.apache.tika.metadata.HttpHeaders.CONTENT_TYPE) == null ? "UTF-8"
-							: metadata.get("Content-Encoding"));
+							.get(org.apache.tika.metadata.HttpHeaders.CONTENT_ENCODING) == null ? "UTF-8"
+							: metadata.get(org.apache.tika.metadata.HttpHeaders.CONTENT_ENCODING));
 
+					logger.info("Content encoding: "+ metadata
+							.get(org.apache.tika.metadata.HttpHeaders.CONTENT_ENCODING));
+					
 					Writer outWriter = getOutputWriter(outputStream,
 							contentEncoding);
 
@@ -261,7 +264,7 @@ public class TikaService {
 							metadata, context);
 					String contentEncoding = (metadata
 							.get(org.apache.tika.metadata.HttpHeaders.CONTENT_TYPE) == null ? "UTF-8"
-							: metadata.get("Content-Encoding"));
+							: metadata.get(org.apache.tika.metadata.HttpHeaders.CONTENT_TYPE));
 					Writer outWriter = getOutputWriter(outputStream,
 							contentEncoding);
 

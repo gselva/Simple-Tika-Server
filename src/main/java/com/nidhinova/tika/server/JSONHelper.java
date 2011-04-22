@@ -42,16 +42,19 @@ public class JSONHelper {
 			else
 				json_comma = "";
 
-			buffer.append(" ").append(gson.toJson(name)).append(":");
+			String value = null;
 			if (metadata.isMultiValued(name)) {
-				buffer.append(parseMetadataValues(metadata
-						.getValues(name)));
+				value = parseMetadataValues(metadata
+						.getValues(name));
 			} else {
-				buffer.append(parseMetadataValue(metadata.get(name)));
+				value = parseMetadataValue(metadata.get(name));
 			}
-
-			buffer.append(json_comma);
-
+			
+			//add to metadata only if there is some useful value
+			if(value!=null && !value.trim().equals("")) {
+			buffer.append(" ").append(gson.toJson(name)).append(":")
+					.append(value).append(json_comma);
+			}
 			i++;
 		}
 		buffer.append(" }");
@@ -85,10 +88,16 @@ public class JSONHelper {
 	 * @return
 	 */
 	private static boolean isNumeric(String str) {
+		boolean isnumeric = false;
+		try{
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);
-		return str.length() == pos.getIndex();
+		isnumeric=(str.length() == pos.getIndex()?true: false);
+		}catch(Exception e) {
+			isnumeric=false;
+		}
+		return isnumeric;
 	}
 
 }
