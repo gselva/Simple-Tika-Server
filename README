@@ -3,7 +3,10 @@ Simple Tika Server (https://github.com/gselva)
 Tika as a HTTP service to parse and get metadata and the textual content of documents (as json)
 
 Based on https://github.com/maxcom/tikaserver-ex
-More info here https://issues.apache.org/jira/browse/TIKA-593
+
+More info 
+Tika as server	: https://issues.apache.org/jira/browse/TIKA-593
+Json output		: https://issues.apache.org/jira/browse/TIKA-213
 
 Build and run
 -------------
