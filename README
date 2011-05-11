@@ -1,21 +1,47 @@
-Simple Tika Server (https://github.com/gselva)
-----------------------------------------------
-Tika as a HTTP service to parse and get metadata and the textual content of documents (as json)
+Simple Tika Server
+https://github.com/gselva
+==========================
 
-Based on https://github.com/maxcom/tikaserver-ex
+Tika as a HTTP service to parse and get metadata and the textual content of documents (as json) such as below.
 
-More info 
-Tika as server	: https://issues.apache.org/jira/browse/TIKA-593
+Sample Invocation:
+------------------
+curl -T tika.pdf http://localhost:8080/tika/fulldata
+
+Sample Output:
+-------------
+{
+    "metadata": { "Author":"Apache",
+            "Content-Length":243166,
+            "Content-Type":"application/pdf",
+            "Creation-Date":"2010-05-11T13:39:32Z",
+            "Keywords":"",
+            "Last-Modified":"2010-05-11T13:39:32Z",
+            "created":"Wed May 11 14:39:32 BST 2010",
+            "creator":"Google Chrome",
+            "producer":"Mac OS X 10.6.7 Quartz PDFContext",
+            "resourceName":"tika.pdf",
+            "subject":"",
+            "title":"Apache Tika - Apache Tika",
+            "xmpTPg:NPages":4 },
+
+    "text":"Apache Tika\nApache Tika - a content analysis toolkit"
+}
+
+Based on https://github.com/maxcom/tikaserver-ex   (thanks Max!)
+
+More info
+---------
+Tika as server	    : https://issues.apache.org/jira/browse/TIKA-593
 Json output		: https://issues.apache.org/jira/browse/TIKA-213
 
 Build and run
 -------------
-Uses Maven. Under project root do: 
+Install Maven if you haven't, then, under project root folder do:
 mvn jetty:run
 
 Deploy
 ------
-Do
 mvn war:war
 
 Then drop the war into the webapps folder of a servlet container like Jetty or Apache Tomcat. 
@@ -25,7 +51,6 @@ If using Simple Tika Server for parsing local files with HTTP GET, you'll need t
 Usage
 -----
 HTTP PUT a document to parse with Tika
-HTTP GET to parse a locally available document with Tika
 
   PUT document to get metadata
 	curl -T pom.xml http://localhost:8080/tika/metadata
@@ -38,13 +63,15 @@ HTTP GET to parse a locally available document with Tika
   PUT document to get metadata and text
 	curl -T pom.xml http://localhost:8080/tika/fulldata
 		returns metadata and textual content as json
-  
-  
-  GET Metadata ('metadata' option)
-	  http://localhost:8080/tika/metadata/localfiles/sample.jpg
+
+
+HTTP GET to parse a locally available document with Tika
+
+  GET Metadata for files local to server ('metadata' option)
+	  http://localhost:8080/tika/metadata/localfiles/tika.pdf
 		returns metadata as JSON
 		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
-		sample.jpg should be made available there before calling 
+		tika.pdf should be made available there before calling
 		
   	http://localhost:8080/tika/metadata/wikipedia/wiki/Douglas_Adams  
 		returns metadata as JSON
@@ -56,17 +83,17 @@ HTTP GET to parse a locally available document with Tika
 		"w/index.php?title=Talk:Douglas_Adams&action=history" is treated as the source document here
 
   
-  GET Text ('text' option)
-  	http://localhost:8080/tika/text/localfiles/sample.doc
+  GET Text for files local to server ('text' option)
+  	http://localhost:8080/tika/text/localfiles/tika.pdf
 		returns textual content, if any, as json
 		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
-		sample.doc should be made available there before calling 
+		tika.pdf should be made available there before calling
   			
-  GET Metadata and Text ('fulldata' option)
-  	http://localhost:8080/tika/fulldata/localfiles/sample.doc
+  GET Metadata and Text for files local to server ('fulldata' option)
+  	http://localhost:8080/tika/fulldata/localfiles/tika.pdf
 		returns metadata and textual content as json
 		'localfiles' is a JNDI value that returns a URL (see jetty-env.xml for example) 
-		sample.doc should be made available there before calling 
+		tika.pdf should be made available there before calling
 
 
 HTTP Codes returned
