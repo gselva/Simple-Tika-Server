@@ -406,7 +406,7 @@ public class TikaService {
 	}
 
 	public Detector createDetector(HttpHeaders httpHeaders) throws IOException,
-			MimeTypeException {
+			TikaException {
 		final javax.ws.rs.core.MediaType mediaType = httpHeaders.getMediaType();
 		if (mediaType == null
 				|| mediaType
